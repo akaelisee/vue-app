@@ -5,6 +5,7 @@ import Contact from '../views/Contact.vue';
 import Account from '../views/Account.vue';
 import Shop from '../views/Shop.vue';
 import ProductDetail from '../views/ProductDetail.vue';
+import ShoppingCart from '../views/ShoppingCart.vue';
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes = [
     path: '/shop',
     name: 'Shop',
     component: Shop
+  },
+  {
+    path: '/cart',
+    name: 'ShoppingCart',
+    component: ShoppingCart
   },
   {
     path: '/account',

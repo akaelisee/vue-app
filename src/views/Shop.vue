@@ -1,21 +1,26 @@
 <template>
     <div>
         <h1>This is a shop page</h1>
-        <div class="products__list">
+        <ProductsGrid :productsArray="productsList"/>
+        <!-- <div class="products__list">
             <div class="product__item" v-for="product in productsList" :key="product.id">
                 <h2>{{product.title}}</h2>
             </div>
-        </div>
+        </div> !-->
     </div>
 </template>
 
 <script>
     import ApiProducts from "@/mixins/ApiProducts";
+    import ProductsGrid from "../components/ProductsGrid"
     export default {
         data: function() {
             return {
                 productsList:[]
             }
+        },
+        components: {
+            ProductsGrid
         },
         methods: {
             // getProducts : function() {

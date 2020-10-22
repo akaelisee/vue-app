@@ -10,6 +10,7 @@
                         <td>Product name</td>
                         <td>Price</td>
                         <td>Quantity</td>
+                        <td>Total</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,10 +25,27 @@
                             {{product.price}}
                         </td>
                         <td>
+                            <button @click="()=>removeQty(product)">-</button>
                             {{product.qty}}
+                            <button @click="()=>addQty(product)">+</button>
+                        </td>
+                        <td>
+                            {{ product.price * product.qty | formatNumber | currency}}
+                        </td>
+                        <td>
+                            <button @click="() => deleteItem(product)">delete</button>
                         </td>
                     </tr>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Total</th>
+                        <th></th>
+                        <th></th>
+                        <th>{{calcQty}}</th>
+                        <th>{{calcTotal | formatNumber | currency}}</th>
+                    </tr>
+                </tfoot>
             </table>
             <p v-else> 
                 Votre panier est vide
@@ -51,22 +69,52 @@
         },
         data: function () {
             return {
-                cardArray:[]
+                cardArray:[],
             }
         },
         created() {
-            this.cardArray = this.getCart()
+            this.cardArray = this.getCart();
+        },
+        // updated() {
+        //     this.cartTotal = this.getCartTotal(this.cardArray)
+        // },
+        computed: {
+            calcTotal: function() {
+                return this.getCartTotal(this.cardArray)
+            },
+            calcQty: function() {
+                return this.getCartCount(this.cardArray);
+            }
+        },
+        filters: {
+            formatNumber: function(value) {
+                return value.toFixed(2);
+            }
         },
         methods: {
             clearCartAndRefresh: function() {
                 this.clearCart();
                 this.cardArray=this.getCart();
+            },
+            removeQty: function(product) {
+                this.removeOneQty(product);
+                this.cardArray=this.getCart();
+            },
+            addQty: function(product) {
+                this.addOneQty(product);
+                this.cardArray=this.getCart();
+            },
+            deleteItem: function(product) {
+                this.removeItemCart(product);
+                this.cardArray=this.getCart();
             }
-        }
+        },
     }
 
 </script>
 
 <style lang="scss" scoped>
-
+table {
+    margin: 30px auto;
+}
 </style>

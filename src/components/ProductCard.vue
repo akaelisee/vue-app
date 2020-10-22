@@ -4,6 +4,7 @@
         <h2>{{ productObject.title }}</h2>
         <p class="product__price">{{ productObject.price }}</p>
     </router-link>
+    <button @click="()=>addToCart(productObject)">Ajouter au panier</button>
   </div>
 </template>
 
@@ -13,6 +14,11 @@ export default {
   props: {
     productObject: Object,
   },
+  methods: {
+      addToCart: function(productObject) {
+        this.$store.commit('addToCart',productObject)
+      }
+  }
 };
 </script>
 

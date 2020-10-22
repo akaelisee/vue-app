@@ -33,16 +33,84 @@ export default {
         clearCart() {
             localStorage.removeItem('shopCart');
         },
+        
         //Suprimer un produit du panier
         removeItemCart(product) {
-            // getItem + setItem
+            let card = JSON.parse(localStorage.getItem('shopCart'));
+            const filteredCard = card.filter((item) => {
+                return item.id !== product.id
+            })
+            localStorage.setItem('shopCart', JSON.stringify(filteredCard));
+        },
+
+        addOneQty(product) {
+            //récupération du localStorage (bien penser à parser)
+            let card = JSON.parse(localStorage.getItem('shopCart')) || [];
+            let productObject = {
+                id: product.id,
+                title: product.title,
+                price: product.price,
+                qty: 1
+            }
+
+            // Eventuellement le même id dans le localStorage
+            let indexOfExistingProduct = card.findIndex(
+                (el) => el.id === productObject.id
+            );
+            
+            //check si id du produit à ajouter est présent dans le panier
+            //Si déjà présent, j'incrémente la prop qté
+            if(indexOfExistingProduct !== -1) {
+                card[indexOfExistingProduct].qty += 1
+            }
+            //Si il n'est pas présent, j'ajoute le nouveau produit au tableau Card
+            // else {
+            //     card.push(productObject)
+
+            //Je réinsère le nouveau tableau dans le localStorage (bien penser à Stringify)
+            localStorage.setItem('shopCart', JSON.stringify(card));
+        },
+        removeOneQty(product) {
+            if (product.qty > 1) {
+                let card = JSON.parse(localStorage.getItem('shopCart')) || [];
+            let productObject = {
+                id: product.id,
+                title: product.title,
+                price: product.price,
+                qty: 1
+            }
+
+            let indexOfExistingProduct = card.findIndex(
+                (el) => el.id === productObject.id
+            );
+            
+            if(indexOfExistingProduct !== -1) {
+                card[indexOfExistingProduct].qty -= 1
+            }
+
+            //Je réinsère le nouveau tableau dans le localStorage (bien penser à Stringify)
+            localStorage.setItem('shopCart', JSON.stringify(card));
+            }
+            
         },
         getCart() {
             let card = JSON.parse(localStorage.getItem('shopCart'));
             return card;
         },
-        getCartCount() {
-            //localStorage.getItem
+        getCartTotal(card) {
+            let total = card.reduce((total, item) => total + item.price * item.qty, 0)
+            return total;
+        },
+        getCartCount(card) {
+            let count = card.reduce((total, item) => total + item.qty, 0);
+            return count;
+            // let count = 0;
+            // if (card != null) {
+            //     card.forEach((element) => {
+            //         count += element.qty
+            //     })
+            // }
+            // return count;
         }
         
     }

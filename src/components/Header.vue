@@ -6,14 +6,19 @@
         <router-link to="/shop">Shop</router-link> |
         <router-link to="/contact">Contact</router-link> |
         <router-link to="/account">Account</router-link> |
-        <router-link to="/cart">Panier</router-link>
+        <router-link to="/cart">Panier {{cartCount}}</router-link>
         </div>
     </header>
 </template>
 
 <script>
     export default {
-        name: "Header"
+        name: "Header",
+        computed: {
+            cartCount() {
+                return this.$store.getters.calcTotalQtyCart
+            }
+        }
     }
 </script>
 
